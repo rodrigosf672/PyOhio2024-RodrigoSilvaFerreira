@@ -114,7 +114,7 @@ for noise in noise_levels:
         axs[i].plot(E, I, label='Original CV Data', color='blue', linewidth=2)
         axs[i].plot(E, I_noisy, label='Noisy CV Data', color='red', linewidth=1, alpha=0.5)
         axs[i].plot(E, I_restored, label='Filtered CV Data', color='green', linewidth=2)
-        axs[i].set_title(f"Window Size: {window_length}, Polynomial Order: {poly_order}, Noise: {noise}, MSLE: {msle:.2f}")
+        axs[i].set_title(f"Window Size: {window_length}, Polynomial Order: {poly_order}, Noise: {noise}, MSLE: {msle:.2f}, MLE: {mse:.2f}")
         axs[i].set_xlabel('Potential (V)')
         axs[i].set_ylabel('Current (µA)')
         axs[i].legend()
