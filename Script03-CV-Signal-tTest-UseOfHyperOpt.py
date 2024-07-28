@@ -24,19 +24,37 @@ with open(file_path_script02, 'rb') as f:
 
 # Calculate average of the average MSLEs and standard deviations for Script01 and Script02
 avg_msle_script01 = np.mean(results_script01['avg_msle'])
-std_dev_script01 = np.mean(results_script01['std_dev'])
+std_dev_msle_script01 = np.mean(results_script01['std_dev_msle'])
 avg_msle_script02 = np.mean(results_script02['avg_msle'])
-std_dev_script02 = np.mean(results_script02['std_dev'])
-print(f"Script01 - Average MSLE: {avg_msle_script01:.4f}, Standard Deviation: {std_dev_script01:.4f}")
-print(f"Script02 - Average MSLE: {avg_msle_script02:.4f}, Standard Deviation: {std_dev_script02:.4f}")
+std_dev_msle_script02 = np.mean(results_script02['std_dev_msle'])
+print(f"Script01 - Average MSLE: {avg_msle_script01:.4f}, Standard Deviation: {std_dev_msle_script01:.4f}")
+print(f"Script02 - Average MSLE: {avg_msle_script02:.4f}, Standard Deviation: {std_dev_msle_script02:.4f}")
 
-# Perform two-sample t-test between averages
-t_stat, p_value = ttest_ind(results_script01['avg_msle'], results_script02['avg_msle'])
-print(f"T-statistic: {t_stat:.4f}, P-value: {p_value:.4f}")
+# Calculate average of the average MSEs and standard deviations for Script01 and Script02
+avg_mse_script01 = np.mean(results_script01['avg_mse'])
+std_dev_mse_script01 = np.mean(results_script01['std_dev_mse'])
+avg_mse_script02 = np.mean(results_script02['avg_mse'])
+std_dev_mse_script02 = np.mean(results_script02['std_dev_mse'])
+print(f"Script01 - Average MSE: {avg_mse_script01:.4f}, Standard Deviation: {std_dev_mse_script01:.4f}")
+print(f"Script02 - Average MSE: {avg_mse_script02:.4f}, Standard Deviation: {std_dev_mse_script02:.4f}")
 
-# Determine if the difference is statistically significant based on p-value.
+# Perform two-sample t-test between averages for MSLE
+t_stat_msle, p_value_msle = ttest_ind(results_script01['avg_msle'], results_script02['avg_msle'])
+print(f"T-statistic (MSLE): {t_stat_msle:.4f}, P-value: {p_value_msle:.4f}")
+
+# Determine if the difference is statistically significant for MSLE
 alpha = 0.05
-if p_value < alpha:
+if p_value_msle < alpha:
     print("There is a statistically significant difference between the two sets of average MSLEs.")
 else:
     print("There is NO statistically significant difference between the two sets of average MSLEs.")
+
+# Perform two-sample t-test between averages for MSE
+t_stat_mse, p_value_mse = ttest_ind(results_script01['avg_mse'], results_script02['avg_mse'])
+print(f"T-statistic (MSE): {t_stat_mse:.4f}, P-value: {p_value_mse:.4f}")
+
+# Determine if the difference is statistically significant for MSE
+if p_value_mse < alpha:
+    print("There is a statistically significant difference between the two sets of average MSEs.")
+else:
+    print("There is NO statistically significant difference between the two sets of average MSEs.")
