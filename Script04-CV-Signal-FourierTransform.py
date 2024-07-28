@@ -8,7 +8,7 @@ Expectation: CV plots for Original, Interfering Substance, and Combined Signal, 
 Reference for CV Data: Copley, G.; Gibson, E. Cyclic Voltammetry of a Cobaloxime Catalyst raw data. Newcastle University: 2019 (licensed under CC BY 4.0).
 """
 
-# Step 1: Import the libraries
+# Import the libraries
 import os
 import pandas as pd
 import numpy as np
