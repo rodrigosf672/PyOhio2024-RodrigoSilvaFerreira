@@ -48,19 +48,18 @@ def objective(params):
         I_noisy = I + np.random.normal(0, max(I) * noise, size=I.shape)
         I_restored = savgol_filter(I_noisy, window_length, poly_order)
         valid_indices = (E >= -0.5) & (E <= 0.2)
-        E_valid = E[valid_indices]
         I_original_valid = I[valid_indices]
         I_restored_valid = I_restored[valid_indices]
-        valid_mask = (I_original_valid > 0) & (I_restored_valid > 0)
-        I_original_valid = I_original_valid[valid_mask]
-        I_restored_valid = I_restored_valid[valid_mask]
-        msle = np.mean((np.log(I_original_valid + 1) - np.log(I_restored_valid + 1)) ** 2)
-        mse = np.mean((I_original_valid - I_restored_valid) ** 2)
+        valid_mask_msle = (I_original_valid > 0) & (I_restored_valid > 0)
+        I_original_valid_msle = I_original_valid[valid_mask_msle]
+        I_restored_valid_msle = I_restored_valid[valid_mask_msle]
+        msle = np.mean((np.log(I_original_valid_msle + 1) - np.log(I_restored_valid_msle + 1)) ** 2)
         msle_scores.append(msle)
-        mse_scores.append(mse)
+        mse = np.mean((I_original_valid - I_restored_valid) ** 2)
+        mse_scores.append(mse)  
     avg_msle = np.mean(msle_scores)
     avg_mse = np.mean(mse_scores)
-    return {'loss': avg_msle, 'status': STATUS_OK, 'mse': avg_mse}
+    return {'loss': avg_msle, 'status': STATUS_OK, 'msle': avg_msle, 'mse': avg_mse}
 
 # Perform hyperparameter optimization using hyperopt. Let's only use 20 attempts.
 trials = Trials()

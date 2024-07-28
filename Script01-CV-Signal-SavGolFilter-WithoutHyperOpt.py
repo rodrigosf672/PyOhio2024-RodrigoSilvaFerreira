@@ -59,13 +59,13 @@ for noise in noise_levels:
         I_original_valid = I[valid_indices]
         I_restored_valid = I_restored[valid_indices]
 
-        # Filter out non-positive values to avoid runtime warnings
-        valid_mask = (I_original_valid > 0) & (I_restored_valid > 0)
-        I_original_valid = I_original_valid[valid_mask]
-        I_restored_valid = I_restored_valid[valid_mask]
+        # For MSLE calculation only, filter out non-positive values to avoid runtime warnings
+        valid_mask_msle = (I_original_valid > 0) & (I_restored_valid > 0)
+        I_original_valid_msle = I_original_valid[valid_mask_msle]
+        I_restored_valid_msle = I_restored_valid[valid_mask_msle]
 
         # Calculate mean squared logarithmic error (MSLE) of the results
-        msle = np.mean((np.log(I_original_valid + 1) - np.log(I_restored_valid + 1)) ** 2)
+        msle = np.mean((np.log(I_original_valid_msle + 1) - np.log(I_restored_valid_msle + 1)) ** 2)
         msle_results.append((window_length, poly_order, msle))
         all_msle_results[(window_length, poly_order)].append(msle)
 
